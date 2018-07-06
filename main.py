@@ -10,13 +10,21 @@ Short task description:
 from utils import timing
 import os
 from math import sqrt, pow
+import csv
+from multiprocessing import Pool
 
 
 @timing
 def load_file(base_dir: str) -> list:
     # Modify this
+    data = []
+    with open(os.path.join(base_dir, 'filedir', 'numbers.csv'), 'r') as f:
+        reader = csv.reader(f, delimiter=' ')
+        next(reader)
+        for row in reader:
+            data.append((float(row[0]), float(row[1])))
 
-    return []
+    return data
 
 
 def calculate_numbers(numbers_pair: list) -> float:
@@ -39,9 +47,9 @@ def algorithm_basic_logic_implementation(numbers_list) -> list:
 # So that it will pass faster.
 @timing
 def your_algorithm_executing_function(numbers_list) -> list:
-    # And this
-
-    return []
+    pool = Pool()
+    results = pool.map(calculate_numbers, numbers_list)
+    return results
 
 
 def main() -> list:
